@@ -51,7 +51,7 @@ class SYRequest {
         // console.log("所有实例，响应成功的拦截")
         this.loading?.close()
         const data = res.data
-        return res
+        return data
       },
       (err) => {
         // console.log("所有实例，响应失败的拦截")

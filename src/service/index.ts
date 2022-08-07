@@ -11,6 +11,7 @@ const syRequest = new SYRequest({
       // console.log("请求成功的拦截")
       const token = localCache.getCache("token")
       if (token) {
+        // 跟老师的代码不一样，我这里需要写非空断言，不知道到为什么
         config.headers!.Authorization = `Bearer ${token}`
       }
       return config

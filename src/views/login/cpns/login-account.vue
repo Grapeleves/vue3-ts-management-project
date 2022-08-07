@@ -69,7 +69,7 @@ export default defineComponent({
           }
 
           // 进行登录验证
-          store.dispatch("loginModule/accountLogin", { ...account })
+          store.dispatch("login/accountLogin", { ...account })
         }
       })
     }

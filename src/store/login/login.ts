@@ -38,21 +38,21 @@ const loginModule: Module<ILoginState, IRootState> = {
       const res = await accountLoginRequest(payload)
       const { id, token } = res.data
       // console.log("token", token)
-      console.log("id", id)
+      // console.log("id", id)
       commit("setToken", token)
       localCache.setCache("token", token)
 
       // 2、获取用户信息
       const userInfoRes = await requestUserInfo(id)
       const userInfo = userInfoRes.data
-      console.log("userInfo", userInfo)
+      // console.log("userInfo", userInfo)
       commit("setUserInfo", userInfo)
       localCache.setCache("userInfo", userInfo)
 
       // 3、获取当前用户的菜单权限
       const userMenusRes = await getUserPowerMenus(userInfo.role.id)
       const userMenus = userMenusRes.data
-      console.log("userMenus", userMenus)
+      // console.log("userMenus", userMenus)
       commit("setUserMenus", userMenus)
 
       // 4、跳转到首页
