@@ -54,6 +54,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       const userMenus = userMenusRes.data
       // console.log("userMenus", userMenus)
       commit("setUserMenus", userMenus)
+      localCache.setCache("userMenus", userMenus)
 
       // 4、跳转到首页
       router.push("/main")
