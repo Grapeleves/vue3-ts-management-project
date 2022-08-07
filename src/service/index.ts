@@ -1,4 +1,4 @@
-import SYRequest from "./request/index"
+import SYRequest from "./request/request"
 import { BASE_URL, TIME_OUT } from "./request/config"
 
 import localCache from "@/utils/catch"
@@ -11,8 +11,7 @@ const syRequest = new SYRequest({
       // console.log("请求成功的拦截")
       const token = localCache.getCache("token")
       if (token) {
-        config.headers
-        // config.headers.Authorization = `Brarer ${token}`
+        config.headers!.Authorization = `Bearer ${token}`
       }
       return config
     },
