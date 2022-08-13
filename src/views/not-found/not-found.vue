@@ -1,6 +1,6 @@
 <template>
-  <div class="user">
-    <h2>user</h2>
+  <div>
+    <h2>Not Found 404</h2>
   </div>
 </template>
 
@@ -8,7 +8,6 @@
 import { defineComponent } from "vue"
 
 export default defineComponent({
-  name: "user",
   setup() {
     return {}
   }

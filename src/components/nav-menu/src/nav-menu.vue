@@ -22,7 +22,11 @@
             </template>
             <template v-for="ele in item.children" :key="ele.id">
               <el-menu-item-group>
-                <el-menu-item :index="ele.id">{{ ele.name }}</el-menu-item>
+                <el-menu-item
+                  :index="ele.id"
+                  @click="handleMenuItemClick(ele)"
+                  >{{ ele.name }}</el-menu-item
+                >
               </el-menu-item-group>
             </template>
           </el-sub-menu>
@@ -35,6 +39,8 @@
 <script lang="ts">
 import { defineComponent, computed } from "vue"
 import { useStore } from "@/store"
+import { useRouter } from "vue-router"
+
 export default defineComponent({
   props: {
     collapse: {
@@ -46,7 +52,15 @@ export default defineComponent({
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
 
-    return { userMenus }
+    const router = useRouter()
+    const handleMenuItemClick = (menu: any) => {
+      // console.log(menu.url)
+      router.push({
+        path: menu.url ?? "/not-found"
+      })
+    }
+
+    return { userMenus, handleMenuItemClick }
   }
 })
 </script>

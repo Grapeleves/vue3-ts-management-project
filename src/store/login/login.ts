@@ -8,6 +8,7 @@ import {
 } from "@/service/login/login"
 import type { Account } from "@/service/login/login-type"
 import localCache from "@/utils/catch"
+import { mapMenusToRoutes } from "@/utils/map-menus"
 import router from "@/router"
 
 const loginModule: Module<ILoginState, IRootState> = {
@@ -29,6 +30,15 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     setUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+
+      // 动态生成路由
+      // userMenus => routes
+      const routes = mapMenusToRoutes(userMenus)
+      // console.log(routes)
+      // routes => route.main.children
+      routes.forEach((route) => {
+        router.addRoute("main", route)
+      })
     }
   },
   actions: {
