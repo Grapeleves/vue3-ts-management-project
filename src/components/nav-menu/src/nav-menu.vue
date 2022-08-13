@@ -2,28 +2,31 @@
   <div class="nav-menu">
     <div class="logo">
       <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
-      <span class="title">Vue3+TS</span>
+      <span class="title" v-show="!collapse">Vue3+TS</span>
     </div>
     <div>
-      <el-menu default-active="2" class="el-menu-vertical">
-        <!-- <el-sub-menu index="1">
-          <template #title>
-            <el-icon><location /></el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item one</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
+      <el-menu
+        default-active="2"
+        :collapse="collapse"
+        :unique-opened="true"
+        class="el-menu-vertical"
+        background-color="#0c2135"
+        text-color="#b7bdc3"
+        active-text-color="#0a60bd"
+      >
+        <template v-for="item in userMenus" :key="item.id">
+          <el-sub-menu :index="item.id">
+            <template #title>
+              <el-icon><Setting /></el-icon>
+              <span>{{ item.name }}</span>
+            </template>
+            <template v-for="ele in item.children" :key="ele.id">
+              <el-menu-item-group>
+                <el-menu-item :index="ele.id">{{ ele.name }}</el-menu-item>
+              </el-menu-item-group>
+            </template>
           </el-sub-menu>
-        </el-sub-menu> -->
-        <template v-for="item in userMenus" :key="item.id"></template>
+        </template>
       </el-menu>
     </div>
   </div>
@@ -33,6 +36,12 @@
 import { defineComponent, computed } from "vue"
 import { useStore } from "@/store"
 export default defineComponent({
+  props: {
+    collapse: {
+      type: Boolean,
+      default: false
+    }
+  },
   setup() {
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
@@ -65,5 +74,36 @@ export default defineComponent({
       color: white;
     }
   }
+  .el-menu {
+    border-right: none;
+  }
+
+  // 目录
+  .el-submenu {
+    background-color: #001529 !important;
+    // 二级菜单 ( 默认背景 )
+    .el-menu-item {
+      padding-left: 50px !important;
+      background-color: #0c2135 !important;
+    }
+  }
+
+  ::v-deep .el-submenu__title {
+    background-color: #001529 !important;
+  }
+
+  // hover 高亮
+  .el-menu-item:hover {
+    color: #fff !important; // 菜单
+  }
+
+  .el-menu-item.is-active {
+    color: #fff !important;
+    background-color: #0a60bd !important;
+  }
+}
+.el-menu-vertical:not(.el-menu--collapse) {
+  width: 100%;
+  height: calc(100% - 48px);
 }
 </style>
