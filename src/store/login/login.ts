@@ -35,7 +35,7 @@ const loginModule: Module<ILoginState, IRootState> = {
       // userMenus => routes
       const routes = mapMenusToRoutes(userMenus)
       // console.log(routes)
-      // routes => route.main.children
+      // 将路由添加到main路由的children中  routes => route.main.children
       routes.forEach((route) => {
         router.addRoute("main", route)
       })
