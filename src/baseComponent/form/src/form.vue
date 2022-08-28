@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div class="form-page">
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form class="form" :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.value">
@@ -46,6 +49,14 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer">
+        <div class="btns">
+          <el-button>重置</el-button>
+          <el-button type="primary">搜索</el-button>
+        </div>
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -108,7 +119,16 @@ export default defineComponent({
 </script>
 
 <style scoped lang="less">
-.form {
-  padding-top: 22px;
+.form-page {
+  padding: 0 10px;
+  .form {
+    padding-top: 22px;
+  }
+  .footer {
+    .btns {
+      text-align: right;
+      padding-bottom: 10px;
+    }
+  }
 }
 </style>
