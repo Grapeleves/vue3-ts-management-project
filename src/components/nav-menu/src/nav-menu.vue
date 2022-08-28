@@ -6,7 +6,7 @@
     </div>
     <div>
       <el-menu
-        default-active="2"
+        :default-active="defaultVal"
         :collapse="collapse"
         :unique-opened="true"
         class="el-menu-vertical"
@@ -37,9 +37,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue"
+import { defineComponent, computed, ref } from "vue"
 import { useStore } from "@/store"
-import { useRouter } from "vue-router"
+import { useRouter, useRoute } from "vue-router"
+import { pathMapToMenu } from "@/utils/map-menus"
 
 export default defineComponent({
   props: {
@@ -60,7 +61,12 @@ export default defineComponent({
       })
     }
 
-    return { userMenus, handleMenuItemClick }
+    const route = useRoute()
+    const routePath = route.path
+    const menu = pathMapToMenu(userMenus.value, routePath)
+    const defaultVal = ref(menu.id)
+
+    return { userMenus, defaultVal, handleMenuItemClick }
   }
 })
 </script>
