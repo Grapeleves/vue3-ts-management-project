@@ -14,7 +14,7 @@
                 v-if="item.type === 'input' || item.type === 'password'"
               >
                 <el-input
-                  v-model="item.value"
+                  v-model="formData[`${item.field}`]"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                 ></el-input>
@@ -22,7 +22,7 @@
               <!-- select选择器 -->
               <template v-else-if="item.type === 'select'">
                 <el-select
-                  v-model="item.value"
+                  v-model="formData[`${item.field}`]"
                   style="width: 100%"
                   :placeholder="item.placeholder"
                 >
@@ -36,7 +36,10 @@
               </template>
               <!-- datepicter日期选择器 -->
               <template v-else-if="item.type === 'datepicter'">
-                <el-date-picker v-bind="item.otherOptions" />
+                <el-date-picker
+                  v-model="formData[`${item.field}`]"
+                  v-bind="item.otherOptions"
+                />
               </template>
             </el-form-item>
           </el-col>
@@ -47,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue"
+import { defineComponent, PropType, ref, watch } from "vue"
 import type { IFormItem } from "../type"
 
 export default defineComponent({
@@ -77,10 +80,29 @@ export default defineComponent({
     formItems: {
       type: Array as PropType<IFormItem[]>,
       default: () => []
+    },
+    modelValue: {
+      type: Object,
+      default: () => {
+        return {}
+      }
     }
   },
-  setup() {
-    return {}
+  emits: ["update:modelValue"],
+  setup(props, { emit }) {
+    // 双向绑定
+    const formData = ref({ ...props.modelValue })
+    watch(
+      formData,
+      (newValue) => {
+        emit("update:modelValue", newValue)
+      },
+      {
+        deep: true
+      }
+    )
+
+    return { formData }
   }
 })
 </script>

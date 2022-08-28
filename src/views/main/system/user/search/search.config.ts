@@ -4,9 +4,10 @@ export const searchFormConfig: IForm = {
   // layout: { span: 8 },
   // itemStyle: { padding: "5px 10px" },
   formItems: [
-    { label: "用户名123", type: "input" },
-    { label: "密码", type: "password" },
+    { field: "name", label: "用户名123", type: "input" },
+    { field: "password", label: "密码", type: "password" },
     {
+      field: "sports",
       label: "运动",
       type: "select",
       placeholder: "请选择运动",
@@ -16,6 +17,7 @@ export const searchFormConfig: IForm = {
       ]
     },
     {
+      field: "timeRange",
       label: "时间范围",
       type: "datepicter",
       otherOptions: {

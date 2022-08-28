@@ -3,6 +3,7 @@ type IFormType = "input" | "password" | "select" | "datepicter"
 export interface IFormItem {
   type: IFormType
   label: string
+  field: string
   rules?: any[]
   placeholder?: any
   options?: any[]
