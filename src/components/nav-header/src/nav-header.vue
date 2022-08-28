@@ -4,7 +4,7 @@
       <Fold v-show="!isFold" /> <Expand v-show="isFold" />
     </el-icon>
     <div class="content">
-      <div>面包屑</div>
+      <bread-crumb :breadcrumbs="breadcrumbs"></bread-crumb>
       <div class="user-info">
         <el-dropdown>
           <span class="el-dropdown-link">
@@ -34,20 +34,35 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue"
 import { useStore } from "@/store"
+import { useRoute } from "vue-router"
+import BreadCrumb, { Breadcrumb } from "@/baseComponent/breadcrumb"
+import { pathMapBreadcrumbs } from "@/utils/map-menus"
 
 export default defineComponent({
   emits: ["flodChange"],
+  components: { BreadCrumb },
   setup(props, { emit }) {
     const store = useStore()
     const userName = computed(() => store.state.login.userInfo.name)
+
     const isFold = ref(false)
     const handleFoldChange = () => {
       isFold.value = !isFold.value
       emit("flodChange", isFold.value)
     }
+
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const route = useRoute()
+      const currentPath = route.path
+      return pathMapBreadcrumbs(userMenus, currentPath)
+    })
+    console.log(breadcrumbs)
+
     return {
       isFold,
       userName,
+      breadcrumbs,
       handleFoldChange
     }
   }
@@ -68,6 +83,7 @@ export default defineComponent({
     flex: 1;
     display: flex;
     justify-content: space-between;
+    align-content: center;
     margin-left: 8px;
     .user-info {
       cursor: pointer;

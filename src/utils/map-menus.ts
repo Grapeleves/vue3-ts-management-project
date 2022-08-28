@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from "vue-router"
+import type { Breadcrumb } from "@/baseComponent/breadcrumb"
 
 let firstMenu: any = null
 
@@ -39,17 +40,32 @@ export function mapMenusToRoutes(userMenus: any[]): RouteRecordRaw[] {
 }
 
 // 在userMenus中匹配路由
-export function pathMapToMenu(userMenus: any[], currentPath: string): any {
+export function pathMapToMenu(
+  userMenus: any[],
+  currentPath: string,
+  breadcrumb?: Breadcrumb[]
+): any {
   for (const menu of userMenus) {
     if (menu.type === 1) {
       const findMenu = pathMapToMenu(menu.children ?? [], currentPath)
       if (findMenu) {
+        breadcrumb?.push({ name: menu.name })
+        breadcrumb?.push({ name: findMenu.name })
         return findMenu
       }
     } else if (menu.type === 2 && menu.url === currentPath) {
       return menu
     }
   }
+}
+
+// 获取当前界面的路由以及父级路由
+export function pathMapBreadcrumbs(userMenus: any[], currentPath: string): any {
+  const breadcrumb: Breadcrumb[] = []
+
+  pathMapToMenu(userMenus, currentPath, breadcrumb)
+
+  return breadcrumb
 }
 
 export { firstMenu }
