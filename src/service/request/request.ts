@@ -61,7 +61,7 @@ class SYRequest {
     )
   }
 
-  request<T>(config: SYRequestConfig<T>): Promise<T> {
+  request<T = any>(config: SYRequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       // 单个请求对config的处理
       if (config.interceptors?.requestInterceptor) {
@@ -93,19 +93,19 @@ class SYRequest {
     })
   }
 
-  get<T>(config: SYRequestConfig<T>): Promise<T> {
+  get<T = any>(config: SYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "GET" })
   }
 
-  post<T>(config: SYRequestConfig<T>): Promise<T> {
+  post<T = any>(config: SYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "POST" })
   }
 
-  delete<T>(config: SYRequestConfig<T>): Promise<T> {
+  delete<T = any>(config: SYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "DELETE" })
   }
 
-  patch<T>(config: SYRequestConfig<T>): Promise<T> {
+  patch<T = any>(config: SYRequestConfig<T>): Promise<T> {
     return this.request<T>({ ...config, method: "PATCH" })
   }
 }

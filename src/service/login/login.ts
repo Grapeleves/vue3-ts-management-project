@@ -1,5 +1,6 @@
 import syRequest from "../index"
-import type { Account, LoginResponseDataType, ResponseType } from "./login-type"
+import type { Account, LoginResponseDataType } from "./login-type"
+import type { ResponseType } from "../type"
 
 enum loginAPI {
   accountLogin = "/login",
