@@ -10,9 +10,12 @@ import router from "./router"
 import store from "./store"
 import { setupStore } from "./store"
 
+import globalRegister from "./global"
+
 // createApp(App).mount("#app")
 const app = createApp(App)
 
+app.use(globalRegister)
 app.use(store)
 setupStore()
 app.use(router)
