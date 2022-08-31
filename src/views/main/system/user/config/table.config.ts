@@ -31,5 +31,10 @@ export const tableColumnsConfig = [
     label: "更新时间",
     minWidth: "120",
     slotName: "updateAt"
+  },
+  {
+    label: "操作",
+    minWidth: "120",
+    slotName: "handler"
   }
 ]

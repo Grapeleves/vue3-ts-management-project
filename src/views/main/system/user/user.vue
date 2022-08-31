@@ -2,14 +2,27 @@
   <div class="user">
     <form-group v-bind="searchFormConfig" v-model="formData" />
     <div class="content">
-      <table-list :tableData="userList" :tableColumns="tableColumnsConfig">
+      <table-list
+        :tableData="userList"
+        :tableColumns="tableColumnsConfig"
+        @selection-change="selectionChange"
+      >
         <template #status="scope">
           <el-button>{{
             scope.row.enable === "1" ? "启用" : "禁用"
           }}</el-button>
         </template>
         <template #createAt="scope">
-          <strong>{{ scope.row.createAt }}</strong>
+          <span>{{ $filters.formatTime(scope.row.createAt) }}</span>
+        </template>
+        <template #updateAt="scope">
+          <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
+        </template>
+        <template #handler>
+          <div>
+            <el-button type="text" size="mini">编辑</el-button>
+            <el-button type="text" size="mini">删除</el-button>
+          </div>
         </template>
       </table-list>
     </div>
@@ -46,7 +59,17 @@ export default defineComponent({
     const userList = computed(() => store.state.system.userList)
     const userCount = computed(() => store.state.system.userCount)
 
-    return { searchFormConfig, formData, userList, tableColumnsConfig }
+    const selectionChange = (value: any) => {
+      console.log("1", value)
+    }
+
+    return {
+      searchFormConfig,
+      formData,
+      userList,
+      tableColumnsConfig,
+      selectionChange
+    }
   }
 })
 </script>
