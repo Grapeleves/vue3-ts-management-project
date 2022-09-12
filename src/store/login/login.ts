@@ -47,8 +47,6 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 1、登录
       const res = await accountLoginRequest(payload)
       const { id, token } = res.data
-      // console.log("token", token)
-      // console.log("id", id)
       commit("setToken", token)
       localCache.setCache("token", token)
 

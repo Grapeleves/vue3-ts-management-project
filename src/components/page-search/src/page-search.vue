@@ -2,7 +2,7 @@
   <div>
     <form-group v-bind="searchFormConfig" v-model="formData">
       <template #header>
-        <h2>高级检索</h2>
+        <p>高级检索</p>
       </template>
       <template #footer>
         <div class="search-btns">

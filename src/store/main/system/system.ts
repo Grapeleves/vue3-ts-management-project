@@ -8,30 +8,44 @@ const systemModule: Module<ISystemState, IRootState> = {
   namespaced: true,
   state() {
     return {
-      userList: [],
-      userCount: 0
+      usersList: [],
+      usersCount: 0
     }
   },
-  getters: {},
+  getters: {
+    pageListData(state) {
+      // getters可以返回函数从而传递参数
+      return (pageName: string) => {
+        return (state as any)[`${pageName}List`]
+      }
+    }
+  },
   mutations: {
-    changeUserList(state, userList) {
-      state.userList = userList
+    changeUsersList(state, userList) {
+      state.usersList = userList
     },
-    changeUserCount(state, userCount) {
-      state.userCount = userCount
+    changeUsersCount(state, userCount) {
+      state.usersCount = userCount
     }
   },
   actions: {
     // 获取页面数据
     async getPageList({ commit }, playload: any) {
-      const url = playload.pageUrl
+      // 获取url、params
+      const pageName = playload.pageName
+      const url = `/${pageName}/list`
       const params = playload.pageParams
+
       // 发送请求获取数据
       const pageResult = await getPageListData(url, params)
-      console.log(pageResult)
+
+      // 数据存储到state
       const { list, totalCount } = pageResult.data
-      commit("changeUserList", list)
-      commit("changeUserCount", totalCount)
+
+      const changePageName =
+        pageName.slice(0, 1).toUpperCase() + pageName.slice(1)
+      commit(`change${changePageName}List`, list)
+      commit(`change${changePageName}Count`, totalCount)
     }
   }
 }
