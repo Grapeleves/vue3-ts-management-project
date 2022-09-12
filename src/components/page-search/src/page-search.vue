@@ -30,7 +30,8 @@ export default defineComponent({
       }
     }
   },
-  setup(props) {
+  emits: ["resetFormData", "queryTableData"],
+  setup(props, { emit }) {
     // formData对象的属性有searchFormConfig种formItems来动态决定
     const formItems = props.searchFormConfig.formItems || []
     const formOriginData: any = {}
@@ -42,11 +43,13 @@ export default defineComponent({
     // 重置
     const resetFormData = () => {
       formData.value = formOriginData
+      emit("resetFormData")
     }
 
     // 搜索
     const queryTableData = () => {
       console.log("搜索数据")
+      emit("queryTableData", formData.value)
     }
     return {
       formData,

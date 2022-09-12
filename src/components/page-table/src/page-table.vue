@@ -41,7 +41,7 @@ import { useStore } from "vuex"
 import TableList from "@/baseComponent/table"
 
 export default defineComponent({
-  naem: "PageTable",
+  name: "PageTable",
   components: { TableList },
   props: {
     tableConfig: {
@@ -54,26 +54,32 @@ export default defineComponent({
     }
   },
   setup(props) {
-    // 获取用户列表数据
     const store = useStore()
-    store.dispatch("system/getPageList", {
-      pageName: props.pageName,
-      pageParams: {
-        offset: 0,
-        size: 10
-      }
-    })
+
+    // 获取用户列表数据
+    const getPageData = (queryInfo: any = {}) => {
+      store.dispatch("system/getPageList", {
+        pageName: props.pageName,
+        pageParams: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+    getPageData()
     const userList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
     // const userCount = computed(() => store.state.system.userCount)
 
-    // 多选
+    // 表格多选
     const selectionChange = (value: any) => {
       console.log("1", value)
     }
     return {
       userList,
+      getPageData,
       selectionChange
     }
   }

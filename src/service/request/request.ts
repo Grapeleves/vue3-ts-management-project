@@ -82,7 +82,6 @@ class SYRequest {
           }
           // 请求结束之后，将showLoading重新设置回初始化值true，防止下一个请求需要展示loading
           this.showLoading = true
-          console.log(res)
           resolve(res)
         })
         .catch((err) => {

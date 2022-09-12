@@ -28,7 +28,6 @@ export default defineComponent({
   setup() {
     const isCollapse = ref(false)
     const flodChange = (isFold: boolean) => {
-      console.log(isFold)
       isCollapse.value = isFold
     }
     return { flodChange, isCollapse }
