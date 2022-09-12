@@ -17,7 +17,8 @@
                 v-if="item.type === 'input' || item.type === 'password'"
               >
                 <el-input
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[item.field]"
+                  @update:model-value="handleValueChange($event, item.field)"
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
                 ></el-input>
@@ -25,9 +26,10 @@
               <!-- select选择器 -->
               <template v-else-if="item.type === 'select'">
                 <el-select
-                  v-model="formData[`${item.field}`]"
                   style="width: 100%"
+                  :model-value="modelValue[item.field]"
                   :placeholder="item.placeholder"
+                  @update:model-value="handleValueChange($event, item.field)"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -40,8 +42,9 @@
               <!-- datepicter日期选择器 -->
               <template v-else-if="item.type === 'datepicter'">
                 <el-date-picker
-                  v-model="formData[`${item.field}`]"
+                  :model-value="modelValue[item.field]"
                   v-bind="item.otherOptions"
+                  @update:model-value="handleValueChange($event, item.field)"
                 />
               </template>
             </el-form-item>
@@ -50,12 +53,7 @@
       </el-row>
     </el-form>
     <div class="footer">
-      <slot name="footer">
-        <div class="btns">
-          <el-button>重置</el-button>
-          <el-button type="primary">搜索</el-button>
-        </div>
-      </slot>
+      <slot name="footer"> </slot>
     </div>
   </div>
 </template>
@@ -94,6 +92,7 @@ export default defineComponent({
     },
     modelValue: {
       type: Object,
+      required: true,
       default: () => {
         return {}
       }
@@ -102,18 +101,22 @@ export default defineComponent({
   emits: ["update:modelValue"],
   setup(props, { emit }) {
     // 双向绑定
-    const formData = ref({ ...props.modelValue })
-    watch(
-      formData,
-      (newValue) => {
-        emit("update:modelValue", newValue)
-      },
-      {
-        deep: true
-      }
-    )
+    // const formData = ref({ ...props.modelValue })
+    // watch(
+    //   formData,
+    //   (newValue) => {
+    //     emit("update:modelValue", newValue)
+    //   },
+    //   {
+    //     deep: true
+    //   }
+    // )
 
-    return { formData }
+    const handleValueChange = (value: any, field: string) => {
+      emit("update:modelValue", { ...props.modelValue, [field]: value })
+    }
+
+    return { handleValueChange }
   }
 })
 </script>
@@ -123,12 +126,6 @@ export default defineComponent({
   padding: 0 10px;
   .form {
     padding-top: 22px;
-  }
-  .footer {
-    .btns {
-      text-align: right;
-      padding-bottom: 10px;
-    }
   }
 }
 </style>
