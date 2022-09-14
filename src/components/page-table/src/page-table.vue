@@ -2,7 +2,9 @@
   <div class="content">
     <table-list
       :tableData="userList"
+      :dataCount="dataCount"
       v-bind="tableConfig"
+      v-model:page="pageInfo"
       @selection-change="selectionChange"
     >
       <!-- 头部插槽 -->
@@ -36,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue"
+import { defineComponent, computed, watch, ref } from "vue"
 import { useStore } from "vuex"
 import TableList from "@/baseComponent/table"
 
@@ -56,13 +58,22 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
+    // 分页数据
+    const pageInfo = ref({
+      currentPage: 1,
+      pageSize: 10
+    })
+    watch(pageInfo, () => {
+      getPageData()
+    })
+
     // 获取用户列表数据
     const getPageData = (queryInfo: any = {}) => {
       store.dispatch("system/getPageList", {
         pageName: props.pageName,
         pageParams: {
-          offset: 0,
-          size: 10,
+          offset: pageInfo.value.pageSize * (pageInfo.value.currentPage - 1),
+          size: pageInfo.value.pageSize,
           ...queryInfo
         }
       })
@@ -71,14 +82,18 @@ export default defineComponent({
     const userList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
-    // const userCount = computed(() => store.state.system.userCount)
+    const dataCount = computed(() =>
+      store.getters[`system/pageListCount`](props.pageName)
+    )
 
     // 表格多选
     const selectionChange = (value: any) => {
       console.log("1", value)
     }
     return {
+      pageInfo,
       userList,
+      dataCount,
       getPageData,
       selectionChange
     }

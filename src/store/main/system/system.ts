@@ -18,6 +18,12 @@ const systemModule: Module<ISystemState, IRootState> = {
       return (pageName: string) => {
         return (state as any)[`${pageName}List`]
       }
+    },
+    pageListCount(state) {
+      // getters可以返回函数从而传递参数
+      return (pageName: string) => {
+        return (state as any)[`${pageName}Count`]
+      }
     }
   },
   mutations: {
