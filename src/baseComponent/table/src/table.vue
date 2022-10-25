@@ -13,6 +13,7 @@
       border
       style="width: 100%"
       align="center"
+      v-bind="childrenProp"
       @selection-change="handleSelectionChange"
     >
       <el-table-column
@@ -29,7 +30,7 @@
         align="center"
       ></el-table-column>
       <template v-for="column in tableColumns" :key="column.prop">
-        <el-table-column v-bind="column" align="center">
+        <el-table-column v-bind="column" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="column.slotName" :row="scope.row">
               {{ scope.row[column.prop] }}
@@ -38,7 +39,7 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div class="footer" v-if="showFooter">
       <slot name="footer">
         <el-pagination
           :currentPage="page.currentPage"
@@ -86,6 +87,16 @@ export default defineComponent({
     showIndex: {
       type: Boolean,
       default: false
+    },
+    childrenProp: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
+    showFooter: {
+      type: Boolean,
+      default: true
     },
     page: {
       type: Object,

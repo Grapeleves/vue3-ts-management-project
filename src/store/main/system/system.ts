@@ -9,7 +9,13 @@ const systemModule: Module<ISystemState, IRootState> = {
   state() {
     return {
       usersList: [],
-      usersCount: 0
+      usersCount: 0,
+      roleList: [],
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   getters: {
@@ -27,11 +33,29 @@ const systemModule: Module<ISystemState, IRootState> = {
     }
   },
   mutations: {
-    changeUsersList(state, userList) {
+    changeUsersList(state, userList: any[]) {
       state.usersList = userList
     },
-    changeUsersCount(state, userCount) {
+    changeUsersCount(state, userCount: number) {
       state.usersCount = userCount
+    },
+    changeRoleList(state, list: any[]) {
+      state.roleList = list
+    },
+    changeRoleCount(state, count: number) {
+      state.usersCount = count
+    },
+    changeGoodsList(state, list: any[]) {
+      state.goodsList = list
+    },
+    changeGoodsCount(state, count: number) {
+      state.goodsCount = count
+    },
+    changeMenuList(state, list: any[]) {
+      state.menuList = list
+    },
+    changeMenuCount(state, count: number) {
+      state.menuCount = count
     }
   },
   actions: {

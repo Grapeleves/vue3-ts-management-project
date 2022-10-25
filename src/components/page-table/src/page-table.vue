@@ -33,6 +33,15 @@
           <el-button type="text" size="mini">删除</el-button>
         </div>
       </template>
+
+      <!-- 动态插入剩余插槽 -->
+      <template
+        v-for="item in otherPropSlots"
+        :key="item.prop"
+        #[item.slotName]="scope"
+      >
+        <slot :name="item.slotName" :row="scope.row"> </slot>
+      </template>
     </table-list>
   </div>
 </template>
@@ -47,8 +56,8 @@ export default defineComponent({
   components: { TableList },
   props: {
     tableConfig: {
-      type: Array,
-      default: () => []
+      type: Object,
+      require: true
     },
     pageName: {
       type: String,
@@ -79,6 +88,8 @@ export default defineComponent({
       })
     }
     getPageData()
+
+    // 从vuex中获取数据
     const userList = computed(() =>
       store.getters[`system/pageListData`](props.pageName)
     )
@@ -86,14 +97,29 @@ export default defineComponent({
       store.getters[`system/pageListCount`](props.pageName)
     )
 
+    // 获取其他的动态插槽名称
+    const otherPropSlots = props.tableConfig?.tableColumns.filter(
+      (item: any) => {
+        if (item.slotName) {
+          if (item.slotName === "status") return false
+          if (item.slotName === "createAt") return false
+          if (item.slotName === "updateAt") return false
+          if (item.slotName === "handler") return false
+          return true
+        }
+      }
+    )
+
     // 表格多选
     const selectionChange = (value: any) => {
       console.log("1", value)
     }
+
     return {
       pageInfo,
       userList,
       dataCount,
+      otherPropSlots,
       getPageData,
       selectionChange
     }
