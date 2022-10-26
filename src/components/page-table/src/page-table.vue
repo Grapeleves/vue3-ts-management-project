@@ -9,7 +9,9 @@
     >
       <!-- 头部插槽 -->
       <template #headerHandler>
-        <el-button type="primary" @click="addUser">新建用户</el-button>
+        <el-button type="primary" v-if="isCreate" @click="addUser"
+          >新建用户</el-button
+        >
         <el-icon><RefreshRight /></el-icon>
       </template>
 
@@ -29,8 +31,8 @@
       </template>
       <template #handler>
         <div>
-          <el-button type="text" size="mini">编辑</el-button>
-          <el-button type="text" size="mini">删除</el-button>
+          <el-button v-if="isUpdate" type="text" size="mini">编辑</el-button>
+          <el-button v-if="isDelete" type="text" size="mini">删除</el-button>
         </div>
       </template>
 
@@ -50,6 +52,7 @@
 import { defineComponent, computed, watch, ref } from "vue"
 import { useStore } from "vuex"
 import TableList from "@/baseComponent/table"
+import { usePermission } from "@/hooks/use-permission"
 
 export default defineComponent({
   name: "PageTable",
@@ -67,6 +70,12 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
+    // 查询操作权限
+    const isQuery = usePermission(props.pageName, "query")
+    const isCreate = usePermission(props.pageName, "create")
+    const isDelete = usePermission(props.pageName, "delete")
+    const isUpdate = usePermission(props.pageName, "update")
+
     // 分页数据
     const pageInfo = ref({
       currentPage: 1,
@@ -78,6 +87,7 @@ export default defineComponent({
 
     // 获取用户列表数据
     const getPageData = (queryInfo: any = {}) => {
+      if (!isQuery) return
       store.dispatch("system/getPageList", {
         pageName: props.pageName,
         pageParams: {
@@ -116,6 +126,9 @@ export default defineComponent({
     }
 
     return {
+      isCreate,
+      isDelete,
+      isUpdate,
       pageInfo,
       userList,
       dataCount,
