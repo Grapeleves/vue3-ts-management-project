@@ -1,3 +1,5 @@
-import { getPageListData } from "./system/system"
+// import { getPageListData, deletePageData } from "./system/system"
 
-export { getPageListData }
+// export { getPageListData, deletePageData }
+
+export * from "./system/system"
