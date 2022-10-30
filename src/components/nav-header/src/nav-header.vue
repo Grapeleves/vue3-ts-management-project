@@ -20,7 +20,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>退出登录</el-dropdown-item>
+              <el-dropdown-item @click="handleExit">退出登录</el-dropdown-item>
               <el-dropdown-item divided>用户信息</el-dropdown-item>
               <el-dropdown-item divided>系统管理</el-dropdown-item>
             </el-dropdown-menu>
@@ -34,8 +34,11 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue"
 import { useStore } from "@/store"
-import { useRoute } from "vue-router"
-import BreadCrumb, { Breadcrumb } from "@/baseComponent/breadcrumb"
+import { useRoute, useRouter } from "vue-router"
+import localCatch from "@/utils/catch"
+
+import BreadCrumb from "@/baseComponent/breadcrumb"
+
 import { pathMapBreadcrumbs } from "@/utils/map-menus"
 
 export default defineComponent({
@@ -51,18 +54,25 @@ export default defineComponent({
       emit("flodChange", isFold.value)
     }
 
+    const route = useRoute()
     const breadcrumbs = computed(() => {
       const userMenus = store.state.login.userMenus
-      const route = useRoute()
       const currentPath = route.path
       return pathMapBreadcrumbs(userMenus, currentPath)
     })
+
+    const router = useRouter()
+    const handleExit = () => {
+      localCatch.deleteCache("token")
+      router.push("/main")
+    }
 
     return {
       isFold,
       userName,
       breadcrumbs,
-      handleFoldChange
+      handleFoldChange,
+      handleExit
     }
   }
 })

@@ -6,6 +6,7 @@ export interface IFormItem {
   field: string
   rules?: any[]
   placeholder?: any
+  isHidden?: boolean
   options?: any[]
   otherOptions?: any
 }

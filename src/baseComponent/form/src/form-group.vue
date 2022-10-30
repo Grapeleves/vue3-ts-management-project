@@ -11,6 +11,7 @@
               :label="item.label"
               :rules="item.rules"
               :style="itemStyle"
+              v-if="!item.isHidden"
             >
               <!-- input输入框 -->
               <template

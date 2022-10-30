@@ -12,7 +12,7 @@ class LocalCatch {
     }
   }
 
-  deleteCatchCache(key: string) {
+  deleteCache(key: string) {
     localStorage.removeItem(key)
   }
 

@@ -49,12 +49,15 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
   actions: {
     // 账号登录
-    async accountLogin({ commit }, payload: Account) {
+    async accountLogin({ commit, dispatch }, payload: Account) {
       // 1、登录
       const res = await accountLoginRequest(payload)
       const { id, token } = res.data
       commit("setToken", token)
       localCache.setCache("token", token)
+
+      // 获取初始化数据
+      dispatch("getInitialDataAction", null, { root: true })
 
       // 2、获取用户信息
       const userInfoRes = await requestUserInfo(id)
@@ -78,10 +81,12 @@ const loginModule: Module<ILoginState, IRootState> = {
       console.log("执行登录phoneLogin", payload)
     },
     // 用户刷新的情况下，重新赋值state中数据
-    loadLocalLoginData({ commit }) {
+    loadLocalLoginData({ commit, dispatch }) {
       const token = localCache.getCache("token")
       if (token) {
         commit("setToken", token)
+        // 获取初始化数据
+        dispatch("getInitialDataAction", null, { root: true })
       }
 
       const userInfo = localCache.getCache("userInfo")

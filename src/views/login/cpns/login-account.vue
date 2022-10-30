@@ -64,8 +64,8 @@ export default defineComponent({
             localCatch.setCache("name", account.name)
             localCatch.setCache("password", account.password)
           } else {
-            localCatch.deleteCatchCache("name")
-            localCatch.deleteCatchCache("password")
+            localCatch.deleteCache("name")
+            localCatch.deleteCache("password")
           }
 
           // 进行登录验证

@@ -9,7 +9,7 @@
     >
       <!-- 头部插槽 -->
       <template #headerHandler>
-        <el-button type="primary" v-if="isCreate" @click="addUser"
+        <el-button type="primary" v-if="isCreate" @click="handleAddClick"
           >新建用户</el-button
         >
         <el-icon><RefreshRight /></el-icon>
@@ -31,7 +31,13 @@
       </template>
       <template #handler="scope">
         <div>
-          <el-button v-if="isUpdate" type="text" size="mini">编辑</el-button>
+          <el-button
+            v-if="isUpdate"
+            type="text"
+            size="mini"
+            @click="handleEditClick(scope.row)"
+            >编辑</el-button
+          >
           <el-button
             v-if="isDelete"
             type="text"
@@ -73,7 +79,8 @@ export default defineComponent({
       default: ""
     }
   },
-  setup(props) {
+  emits: ["add-click", "edit-click"],
+  setup(props, { emit }) {
     const store = useStore()
 
     // 查询操作权限
@@ -133,11 +140,20 @@ export default defineComponent({
 
     // 删除
     const handleDeleteClick = (row: any) => {
-      console.log(row)
       store.dispatch("system/deletePageData", {
         pageName: props.pageName,
         id: row.id
       })
+    }
+
+    // 新增
+    const handleAddClick = () => {
+      emit("add-click")
+    }
+
+    // 修改
+    const handleEditClick = (row: any) => {
+      emit("edit-click", row)
     }
 
     return {
@@ -150,7 +166,9 @@ export default defineComponent({
       otherPropSlots,
       getPageData,
       selectionChange,
-      handleDeleteClick
+      handleDeleteClick,
+      handleAddClick,
+      handleEditClick
     }
   }
 })
