@@ -103,6 +103,7 @@ const systemModule: Module<ISystemState, IRootState> = {
     // 新建
     async createPageData({ dispatch }, playload: any) {
       const { pageName, newData } = playload
+      console.log(newData)
       const url = `/${pageName}`
       await createPageData(url, newData)
 
