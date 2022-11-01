@@ -3,6 +3,7 @@ import { IRootState, IRootType } from "./type"
 
 import login from "./login/login"
 import system from "./main/system/system"
+import dashboard from "./main/analysic/dashboard"
 
 import { getPageListData } from "@/service/main/system/system"
 
@@ -54,7 +55,8 @@ const store = createStore<IRootState>({
   },
   modules: {
     login,
-    system
+    system,
+    dashboard
   }
 })
 

@@ -50,7 +50,6 @@ export default defineComponent({
     // 处理角色树的反显
     const treeRef = ref<InstanceType<typeof ElTree>>()
     const editCallback = (row: any) => {
-      console.log("1111111111111", row.menuList)
       const leafKeys = getMenuLeafKeys(row.menuList)
       nextTick(() => {
         treeRef.value?.setCheckedKeys(leafKeys, false)
