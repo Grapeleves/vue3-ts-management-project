@@ -1,6 +1,6 @@
 export interface IDashboardState {
   categoryGoodsCount: any[]
   categoryGoodsSale: any[]
-  categoryGoodsFaor: any[]
+  categoryGoodsFavor: any[]
   adddressGoodsSale: any[]
 }

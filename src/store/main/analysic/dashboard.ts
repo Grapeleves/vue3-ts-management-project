@@ -16,7 +16,7 @@ const dashboardModule: Module<IDashboardState, IRootState> = {
     return {
       categoryGoodsCount: [],
       categoryGoodsSale: [],
-      categoryGoodsFaor: [],
+      categoryGoodsFavor: [],
       adddressGoodsSale: []
     }
   },
@@ -28,7 +28,7 @@ const dashboardModule: Module<IDashboardState, IRootState> = {
       state.categoryGoodsSale = list
     },
     getCategoryGoodsFavor(state, list) {
-      state.categoryGoodsFaor = list
+      state.categoryGoodsFavor = list
     },
     getAddressGoodsSale(state, list) {
       state.adddressGoodsSale = list
